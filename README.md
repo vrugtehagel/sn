@@ -1,6 +1,6 @@
 # The SN file format
 
-The `.sn` format is a lossless image compression format that excels at compressing a certain type of image. The two most properties for best results are:
+The `.sn` format is a lossless image compression format that excels at compressing a certain type of image. The two most important properties for good results are:
 
 - Using only a handful of colors (around 5, but less is better). This also means it does not perform well on anti-aliased curves; for better results, remove the anti-aliasing before compressing.
 - Being predictable. The format does not perform well on images with dithering, hatching, gradients, or textures. It works best on images with cartoon-style solid lines and filled areas.
