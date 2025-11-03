@@ -14,11 +14,11 @@ The SN format consists of a header section and a body.
 
 The header section is relatively short; 16 bytes, then the color palette (which contains variable number of colors).
 
-- Bytes 0-8 are magic self-identifying bytes; in hex, `53 4e 78 56 48 30 2e 31`, which in ASCII reads "SNxVH0.1".
-- Bytes 9-10 are the image width;
-- Bytes 11-12 are the image height;
-- Bytes 13-15 are currently unused, reserved for future extensions, but also exist for convenience in the decoding process since it creates just enough room to overwrite the first handful of bytes with 4 additional colors in front of the palette.
-- Byte 16 is the number of colors in the palette.
+- Bytes 0-7 are magic self-identifying bytes; in hex, `53 4e 78 56 48 30 2e 31`, which in ASCII reads "SNxVH0.1".
+- Bytes 8-9 are the image width;
+- Bytes 10-11 are the image height;
+- Bytes 12-14 are currently unused, reserved for future extensions, but also exist for convenience in the decoding process since it creates just enough room to overwrite the first handful of bytes with 4 additional colors in front of the palette.
+- Byte 15 is the number of colors in the palette.
 
 ## SN file body
 
