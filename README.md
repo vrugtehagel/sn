@@ -55,20 +55,20 @@ There are three special cases. Since the format benefits a lot from predictabili
 
 ```
 . . . A
-. . A
+. . A .
 A A B B
 A ? (guess B)
 ```
 
 ```
-B
-. B
+B . . .
+. B . .
 A A B .
 . A ? (guess A)
 ```
 
 ```
-A . B
+A . B . .
 . A B B .
 . . A ? (guess A)
 ```
