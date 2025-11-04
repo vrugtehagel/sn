@@ -70,7 +70,7 @@ A A B .
 ```
 A . B . .
 . A B B .
-. . A ? (guess A)
+. . A ? (guess B)
 ```
 
 ### Out-of-bounds handling
