@@ -77,7 +77,7 @@ A . B . .
 
 The matching cases above require looking up earlier pixels already processed. In some cases, these pixels are outside the boundary of the image, either on the left, right, or top.
 
-If a pixel goes out-of-bounds on the left or right, the value of the pixel is looked up by wrapping back onto the other side of the image, one row above or below the pixel in question. If a pixel is out of bounds at the top of the image, such wrapping isn't possible; then the default color, i.e. the first in the palette, is returned.
+If a pixel goes out-of-bounds on the left or right, the value of the pixel is looked up by wrapping back onto the other side of the image, one row above or below the pixel in question respectively. If a pixel is out of bounds at the top of the image, such wrapping isn't possible; then the default color, i.e. the first in the palette, is returned.
 
 In practice, this means that the color for a pixel at (x, y) can be looked up using the index, `y * width + x`, even if `x` is negative or exceeds `width`. The only required condition is that that index is non-negative. For this type of image, this often behaves desirably; images with a solid background color already technically "wrap", so this works well in practice and slightly simplifies processing.
 
@@ -109,15 +109,15 @@ For example, if our palette contains four colors, then:
 - A guess of badness 2 emits `110`;
 - A guess of badness 3 emits `111`.
 
-Since the vast majority of the guesses are correct, mostly the resulting bits are long strings of zeroes. Zeroes at the end of the file are omitted; that is, when decompressing, the remaining image is to be filled with best guesses until the image dimensions are fulfilled.
+Since the vast majority of the guesses are correct, mostly the resulting bits are long strings of zeroes. Zeroes at the end of the file may be omitted; that is, when decompressing, the remaining image is to be filled with best guesses until the image dimensions are fulfilled.
 
 ### Compressed form
 
 The long strings of zeroes in the expanded form are compressed further, in order to reduce the filesize even more. For each series of zeroes, delimited by 1s on both sides (or by the start of the data), the following steps are taken:
 
-- Write out the number of zeroes in binary (e.g. 23 -> `10111`)
+- Write out the number of zeroes in binary (e.g. 23 zeroes -> `10111`)
 - Split the result in groups of two bits, prepending a `0` if necessary (`10111` -> `01, 01, 11`)
-- Append a zero to each pair of bits (`01, 01, 11` -> `001, 001, 011`)
+- Prepend a zero to each pair of bits (`01, 01, 11` -> `001, 001, 011`)
 - Concatenate the resulting bits (`001, 001, 011` -> `001001011`).
 
 This greatly reduces filesize for images that get a lot of guesses correctly, and the resulting format even benefits a little from being gzipped or brotli-compressed because, even though the bits are not byte-aligned, there is a statistical repetition in the fact that a third of most of the bits are zeroes.
