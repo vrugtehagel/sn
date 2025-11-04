@@ -125,6 +125,6 @@ This greatly reduces filesize for images that get a lot of guesses correctly, an
 This process is, of course, reversible; to decompress back into expanded form:
 
 1. If the current bit is a `1`, keep the bit and continue.
-2. If the current bit is a `0`, check every next third bit until encountering a `0`. These triplets can then be converted back to a binary number, and expanded as number of zeroes.
+2. If the current bit is a `0`, check every next third bit until encountering a `1`. The triplets can then be converted back to a binary number, and expanded as series of zeroes (although in practice, generating the expanded form is not necessary to decode the image).
 
 Note that the `0`s we get from correct guesses mix into the `0`s at the end of imperfect guesses, so the compressed number of zeroes doesn't always (often doesn't) represent the number of correct guesses.
