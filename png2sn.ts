@@ -52,20 +52,20 @@ function compress(
 		zeroes = badness == palette.length - 1 ? 0 : 1
 		while(badness--) bits.push(1)
 	}
-	const start = 16 + palette.length * 4
-	const size = start + Math.ceil(bits.length / 8)
-	const bytes = new Uint8Array(size)
-	bytes.set([
+	const header = [
 		0x53, 0x4e, 0x78, 0x56, 0x48, 0x30, 0x2e, 0x31,
 		width & 0xFF, width >>> 8, height & 0xFF, height >>> 8,
 		0x00, 0x00, 0x00,
 		palette.length,
 		...palette.flatMap(color => toRgba(color)),
-	], 0)
+	]
+	const size = header.length + Math.ceil(bits.length / 8)
+	const bytes = new Uint8Array(size)
+	bytes.set(header, 0)
 	for(let index = 0; index < bits.length; index += 8){
 		let byte = 0
 		for(let b = 0; b < 8; b++) byte += (bits[index + b] << (7 - b))
-		bytes[start + (index >>> 3)] = byte
+		bytes[header.length + (index >>> 3)] = byte
 	}
 	return bytes
 }
