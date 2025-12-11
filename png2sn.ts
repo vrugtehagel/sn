@@ -10,6 +10,7 @@ export async function convert(input: Uint8Array): Uint8Array {
 	const {width, height, data} = jimp.bitmap
 	const tones = new Uint32Array(data.buffer)
 	const rootPalette = getPalette(tones, 6)
+	snapTones(tones, rootPalette)
 	let best
 	for(const defaultColor of rootPalette){
 		const palette = rootPalette.filter(color => color != defaultColor)
@@ -97,6 +98,20 @@ function getBestGuess(at){
 		if(at(-3, -2) != left) return left
 		return top
 	} else return top
+}
+
+function snapTones(tones: Uint32Array, palette: Color[]): void {
+	const cache = new Map<Color, Color>()
+	for(const color of palette) cache.set(color, color)
+	for(let index = 0; index < tones.length; index++){
+		const tone = tones[index]
+		if(cache.has(tone)) tones[index] = cache.get(tone)
+		const distances = palette.map(color => colorDistance(tone, color))
+		const closest = Math.min(...distances)
+		const snapped = palette[distances.indexOf(closest)]
+		cache.set(tone, snapped)
+		tones[index] = snapped
+	}
 }
 
 /** For a given palette, order the colors to optimize output filesize. The
