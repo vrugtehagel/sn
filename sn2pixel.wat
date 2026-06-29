@@ -51,6 +51,7 @@
 		(global.set $byte_index (i32.add (i32.const 16)))
 
 		(local.set $worst (i32.sub (i32.load8_u (i32.const 15)) (i32.const 1)))
+		(local.set $extra_zero (i32.const 1))
 
 		(loop $reading
 			;; First we read the number of 1s (there could be none!)
