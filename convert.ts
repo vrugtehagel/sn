@@ -15,4 +15,6 @@ const output = Deno.args[1] ?? input.slice(0, -type.length) + outtype
 const {convert} = type == 'sn' ? sn2png : png2sn
 const bytes = await convert(file)
 await Deno.writeFile(output, bytes, {createNew: true})
-console.log(`Wrote "${output}" successfully.`)
+const change = Math.round(bytes.length / file.length * 100 - 100)
+const signed = change < 0 ? `${change}` : `+${change}`
+console.log(`Wrote "${output}" successfully (${signed}%).`)
